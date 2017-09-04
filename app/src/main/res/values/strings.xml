@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies Stage 1</string>
     <string name="sort">Popular Movies Sort</string>
+    <string name="Error">No Internet Connection</string
     <string name="API">YOUR_API_KEY</string>
     <string name="popularity">Popularity</string>
     <string name="toprated">Top Rated</string>
