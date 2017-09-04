@@ -25,7 +25,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        if(CheckNetwork.isInternetAvailable(this)) //returns true if internet available
+        if(CheckNetwork.isInternetAvailable(this)) 
         {
 
         TextView rating = (TextView) findViewById(R.id.rating);
