@@ -70,7 +70,7 @@ public class Main2Activity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(this,"No Internet Connection",1000).show();
+            Toast.makeText(this,getString(R.string.Error),1000).show();
         }
 
     }
