@@ -2,6 +2,7 @@ package com.cavepass.popularmoviesstage1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,9 @@ public class cardsAdapter extends ArrayAdapter<cards> {
     }
 
 
+    @NonNull
     @Override
-    public View getView(int position,  View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         View listItemView  = convertView;
 
@@ -49,7 +51,7 @@ public class cardsAdapter extends ArrayAdapter<cards> {
 
 
 
-        Glide.with(context).load("https://image.tmdb.org/t/p/w185/"+currentCard.getmImageID()).into(icon);
+        Glide.with(context).load("https://image.tmdb.org/t/p/w185/"+ (currentCard != null ? currentCard.getmImageID() : null)).into(icon);
 
 
 
