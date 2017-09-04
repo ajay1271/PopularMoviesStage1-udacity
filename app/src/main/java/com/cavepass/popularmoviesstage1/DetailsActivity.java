@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -23,6 +24,9 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        if(CheckNetwork.isInternetAvailable(this)) //returns true if internet available
+        {
 
         TextView rating = (TextView) findViewById(R.id.rating);
         TextView Title = (TextView) findViewById(R.id.Title);
@@ -51,4 +55,8 @@ public class DetailsActivity extends AppCompatActivity {
 
 
     }
-}
+        else
+        {
+            Toast.makeText(this,"No Internet Connection",1000).show();
+        }
+}}
