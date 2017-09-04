@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies Stage 1</string>
     <string name="sort">Popular Movies Sort</string>
-    <string name="API">2bfc2845a8e711f212828a7f8d23d3a7</string>
+    <string name="API">YOUR_API_KEY</string>
     <string name="popularity">Popularity</string>
     <string name="toprated">Top Rated</string>
     <string name="MovieDB_URL">"http://api.themoviedb.org/3/movie/popular?api_key="</string>
