@@ -144,13 +144,13 @@ public class Main2Activity extends AppCompatActivity {
             }
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
-                //Getting inputstream from connection, that is response which we got from server
+              
                 InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
-                //Reading the response
+            
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream != null ? inputStream : null));
                 String s = bufferedReader.readLine();
                 bufferedReader.close();
-                //Returning the response message to onPostExecute method
+                
                 return s;
             } catch (IOException e) {
                 Log.e("Error: ", e.getMessage(), e);
