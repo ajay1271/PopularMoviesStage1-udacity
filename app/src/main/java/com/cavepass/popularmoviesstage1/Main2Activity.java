@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 
 public class Main2Activity extends AppCompatActivity {
@@ -37,33 +38,40 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(CheckNetwork.isInternetAvailable(this)) //returns true if internet available
+        {
 
 
-        gridview = (GridView) findViewById(R.id.grid);
-        gridview.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+            gridview = (GridView) findViewById(R.id.grid);
+            gridview.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 
-        MovieAsyncTask task = new MovieAsyncTask();
-        task.execute();
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> a, View v, int position,
-                                    long id) {
-
-
-                Intent i = new Intent(Main2Activity.this,DetailsActivity.class);
-
-                i.putExtra("overview",movies.get(position).getmOverview());
-                i.putExtra("Release_date",movies.get(position).getmYear());
-                i.putExtra("rating",movies.get(position).getmVote());
-                i.putExtra("imageID",movies.get(position).getmImageID());
-                i.putExtra("Title",movies.get(position).getmTitle());
-
-                startActivity(i);
+            MovieAsyncTask task = new MovieAsyncTask();
+            task.execute();
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> a, View v, int position,
+                                        long id) {
 
 
+                    Intent i = new Intent(Main2Activity.this, DetailsActivity.class);
 
-            }
-        });
+                    i.putExtra("overview", movies.get(position).getmOverview());
+                    i.putExtra("Release_date", movies.get(position).getmYear());
+                    i.putExtra("rating", movies.get(position).getmVote());
+                    i.putExtra("imageID", movies.get(position).getmImageID());
+                    i.putExtra("Title", movies.get(position).getmTitle());
+
+                    startActivity(i);
+
+
+                }
+            });
+
+        }
+        else
+        {
+            Toast.makeText(this,"No Internet Connection",1000).show();
+        }
 
     }
     @Override
@@ -137,20 +145,20 @@ public class Main2Activity extends AppCompatActivity {
 
 
             try {
-                
+                //As we are passing just one parameter to AsyncTask, so used param[0] to get value at 0th position that is URL
                 url = createUrl(getString(R.string.MovieDB_URL2)+getString(R.string.API));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
-              
+                //Getting inputstream from connection, that is response which we got from server
                 InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
-            
+                //Reading the response
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream != null ? inputStream : null));
                 String s = bufferedReader.readLine();
                 bufferedReader.close();
-                
+                //Returning the response message to onPostExecute method
                 return s;
             } catch (IOException e) {
                 Log.e("Error: ", e.getMessage(), e);
