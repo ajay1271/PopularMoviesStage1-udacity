@@ -1,12 +1,12 @@
 package com.cavepass.popularmoviesstage1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import org.json.*;
@@ -19,9 +19,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private GridView gridview;
-    private static final String MovieDB_URL = "http://api.themoviedb.org/3/movie/popular?api_key=2bfc2845a8e711f212828a7f8d23d3a7";
+
+    boolean popular=false;
+    boolean toprated=false;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +68,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mymenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-/*
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i = new Intent(MainActivity.this,sort.class);
+        startActivity(i);
 
-    void openDetails(View view){
 
 
 
-        Intent i = new Intent(this,DetailsActivity.class);
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    void rating(View view){
+
+
+
+        Intent i = new Intent(MainActivity.this,DetailsActivity.class);
+
+        popular=true;
 
         startActivity(i);
 
@@ -81,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-*/
+
 
 
 
@@ -99,19 +121,28 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
+
+
+
+
         @Override
         protected String doInBackground(String... params) {
             URL url = null;
+
+
+
+
+
             try {
                 //As we are passing just one parameter to AsyncTask, so used param[0] to get value at 0th position that is URL
-                url = createUrl(MovieDB_URL);
+                url = createUrl(getString(R.string.MovieDB_URL)+getString(R.string.API));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
                 //Getting inputstream from connection, that is response which we got from server
-                InputStream inputStream = urlConnection.getInputStream();
+                InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
                 //Reading the response
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String s = bufferedReader.readLine();
@@ -130,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         private URL createUrl(String stringUrl) {
-            URL url = null;
+            URL url;
             try {
                 url = new URL(stringUrl);
             } catch (MalformedURLException exception) {
@@ -171,20 +202,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-                //Setting adapter to gricview
-
-
-
-
                 gridview.setAdapter(movieArrayAdapter);
-
-
-
-
-
-
-
 
 
 
