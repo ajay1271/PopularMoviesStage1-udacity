@@ -57,6 +57,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
         else
         {
-            Toast.makeText(this,getString(R.string.Error),1000).show();
+            Toast.makeText(this,getString(R.string.Error),Toast.LENGTH_SHORT).show();
         }
 }}
