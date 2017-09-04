@@ -1,12 +1,10 @@
 package com.cavepass.popularmoviesstage1;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +19,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 
 public class Main2Activity extends AppCompatActivity {
@@ -83,11 +78,9 @@ public class Main2Activity extends AppCompatActivity {
         Intent i = new Intent(Main2Activity.this,sort.class);
         startActivity(i);
 
-        int id = item.getItemId();
 
-        if (id == R.id.mybutton) {
 
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -150,11 +143,11 @@ public class Main2Activity extends AppCompatActivity {
                 e.printStackTrace();
             }
             try {
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
                 //Getting inputstream from connection, that is response which we got from server
-                InputStream inputStream = urlConnection.getInputStream();
+                InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
                 //Reading the response
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream != null ? inputStream : null));
                 String s = bufferedReader.readLine();
                 bufferedReader.close();
                 //Returning the response message to onPostExecute method
@@ -171,7 +164,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
         private URL createUrl(String stringUrl) {
-            URL url = null;
+            URL url;
             try {
                 url = new URL(stringUrl);
             } catch (MalformedURLException exception) {
