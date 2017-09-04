@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    // handle button activities
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent i = new Intent(MainActivity.this,sort.class);
@@ -134,20 +134,20 @@ public class MainActivity extends AppCompatActivity {
 
 
             try {
-                //As we are passing just one parameter to AsyncTask, so used param[0] to get value at 0th position that is URL
+              
                 url = createUrl(getString(R.string.MovieDB_URL)+getString(R.string.API));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
-                //Getting inputstream from connection, that is response which we got from server
+                
                 InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
-                //Reading the response
+               
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String s = bufferedReader.readLine();
                 bufferedReader.close();
-                //Returning the response message to onPostExecute method
+          
                 return s;
             } catch (IOException e) {
                 Log.e("Error: ", e.getMessage(), e);
