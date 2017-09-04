@@ -137,7 +137,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
             try {
-                //As we are passing just one parameter to AsyncTask, so used param[0] to get value at 0th position that is URL
+                
                 url = createUrl(getString(R.string.MovieDB_URL2)+getString(R.string.API));
             } catch (Exception e) {
                 e.printStackTrace();
