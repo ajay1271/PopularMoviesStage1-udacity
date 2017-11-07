@@ -3,10 +3,16 @@
     <string name="sort">Popular Movies Sort</string>
     <string name="Error">No Internet Connection</string>
     <string name="API">YOUR_API_KEY</string>
-    <string name="popularity">Popularity</string>
+    <string name="popularity">Popular</string>
     <string name="toprated">Top Rated</string>
     <string name="MovieDB_URL">"http://api.themoviedb.org/3/movie/popular?api_key="</string>
     <string name="MovieDB_URL2">"http://api.themoviedb.org/3/movie/top_rated?api_key="</string>
+    <string-array name="spinner_list_item_array">
+        <item>Sort By</item>
+        <item>Top Rated</item>
+        <item>Popular</item>
+
+    </string-array>
 
 
 </resources>
