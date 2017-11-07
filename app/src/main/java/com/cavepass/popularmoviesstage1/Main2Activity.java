@@ -1,11 +1,20 @@
 package com.cavepass.popularmoviesstage1;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,18 +30,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class Main2Activity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     ArrayList<cards> movies = new ArrayList<>();
 
 
-    private GridView listView;
+    private GridView gridview;
 
+    boolean popular=false;
+    boolean toprated=false;
 
 
 
@@ -42,30 +52,32 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(CheckNetwork.isInternetAvailable(this)) 
+        if(CheckNetwork.isInternetAvailable(this))
         {
 
 
-            listView = (GridView) findViewById(R.id.grid);
 
+            gridview = (GridView) findViewById(R.id.grid);
+            gridview.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 
             MovieAsyncTask task = new MovieAsyncTask();
             task.execute();
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> a, View v, int position,
                                         long id) {
 
 
-                    Intent i = new Intent(Main2Activity.this, DetailsActivity.class);
+                    Intent i = new Intent(MainActivity.this,DetailsActivity.class);
 
-                    i.putExtra("overview", movies.get(position).getmOverview());
-                    i.putExtra("Release_date", movies.get(position).getmYear());
-                    i.putExtra("rating", movies.get(position).getmVote());
-                    i.putExtra("imageID", movies.get(position).getmImageID());
-                    i.putExtra("Title", movies.get(position).getmTitle());
+                    i.putExtra("overview",movies.get(position).getmOverview());
+                    i.putExtra("Release_date",movies.get(position).getmYear());
+                    i.putExtra("rating",movies.get(position).getmVote());
+                    i.putExtra("imageID",movies.get(position).getmImageID());
+                    i.putExtra("Title",movies.get(position).getmTitle());
 
                     startActivity(i);
+
 
 
                 }
@@ -78,13 +90,12 @@ public class Main2Activity extends AppCompatActivity {
         }
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_spinner, menu);
 
         MenuItem item = menu.findItem(R.id.spinner);
-        final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+       final Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.spinner_list_item_array, android.R.layout.simple_spinner_item);
@@ -94,30 +105,30 @@ public class Main2Activity extends AppCompatActivity {
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        @Override
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
-                String items = spinner.getSelectedItem().toString();
+            String items = spinner.getSelectedItem().toString();
 
 
-                if(items.equals(getString(R.string.popularity))){
+            if(items.equals(getString(R.string.toprated))){
 
-                    Intent j = new Intent(Main2Activity.this,MainActivity.class);
+                Intent j = new Intent(MainActivity.this,Main2Activity.class);
 
                     startActivity(j);
 
 
 
-                }
-
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
+        }
 
-            }
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
 
-        });
+        }
+
+    });
 
 
 
@@ -127,26 +138,19 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
+    void rating(View view){
 
 
 
+        Intent i = new Intent(MainActivity.this,DetailsActivity.class);
+
+        popular=true;
+
+        startActivity(i);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 
@@ -178,21 +182,22 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
+
             try {
-                
-                url = createUrl(getString(R.string.MovieDB_URL2)+getString(R.string.API));
+
+                url = createUrl(getString(R.string.MovieDB_URL)+getString(R.string.API));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
                 HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
-                
+
                 InputStream inputStream = urlConnection != null ? urlConnection.getInputStream() : null;
-                
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream != null ? inputStream : null));
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 String s = bufferedReader.readLine();
                 bufferedReader.close();
-                
+
                 return s;
             } catch (IOException e) {
                 Log.e("Error: ", e.getMessage(), e);
@@ -243,23 +248,11 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-                cardsAdapter movieArrayAdapter = new cardsAdapter(Main2Activity.this,movies);
+                cardsAdapter movieArrayAdapter = new cardsAdapter(MainActivity.this,movies);
 
 
 
-
-
-
-
-
-                listView.setAdapter(movieArrayAdapter);
-
-
-
-
-
-
-
+                gridview.setAdapter(movieArrayAdapter);
 
 
 
